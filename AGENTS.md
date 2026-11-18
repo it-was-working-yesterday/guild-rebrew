@@ -409,6 +409,14 @@ objects does not verify linked placement/data; these checks never earn STATUS.
 
 <!-- rebrew: project rules below, kept by --refresh-agents -->
 
+## Fixed rule: recomp work runs on the worker PC
+
+All reconstruction work runs on the Windows worker PC (`worker` CLI), never on the Debian VM: `rebrew test`,
+`verify`, `diff`, `match`, `todo`, builds, linking and any compiler/Docker/unshare execution. Don't try locally first.
+Debian only edits sources, runs git and light read-only inspection. Run `worker run rebrew -- <rebrew args>`
+(`worker.toml`, `scripts/pc-rebrew.sh`): it syncs the tree, runs rebrew in WSL on a lane copy, and `worker fetch <id>`
+returns the updated metadata TOMLs. Never fall back to running it here. No sudo on the PC.
+
 `rebrew init --refresh-agents` rewrites everything above this marker. The rules
 below are project-specific and survive that refresh.
 

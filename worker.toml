@@ -1,0 +1,9 @@
+# Worker tasks for guild-rebrew. All rebrew/recomp work runs on the PC (WSL Debian), never on the Debian VM.
+# worker run rebrew -- test <file> --json ; then `worker fetch <id>` returns the updated metadata TOMLs.
+project = "guild-rebrew"
+lane = "main"
+
+[tasks.rebrew]
+argv = ["wsl", "-d", "Debian", "-u", "rebrew", "--exec", "bash", "-l", "-c", 'exec bash "$(wslpath "$1")/scripts/pc-rebrew.sh" "$@"', "_", "{src}", "{artifacts}"]
+timeout = "60m"
+description = "rebrew <args> in WSL on a lane copy of the synced tree; metadata TOMLs land in {artifacts}"

@@ -19,6 +19,10 @@ Only exact-address matches count; a Rust-port note that covers a function's inte
 
 ## Pick-up list: `start-function` items the Rust port already understands
 
+> **Update 2026-11-19:** the six functions in this pick-up list (0x5666b0, 0x566fa0, 0x579320, 0x56e8e0, 0x49a7b0, 0x570870)
+> are already published in open PRs #3, #4 and #5 on maci0/guild-rebrew, placed in their neighbours' files. Check `gh pr list`
+> before starting a function from this list. 0x49fa80 is in #4 as well; 0x5fc0c8 already has source on `main`.
+
 Six GoldTL functions without source that the Rust port has named from code (S) or runtime (D) evidence. Read the linked doc
 before skeletoning; the names are theirs, so apply the project naming rules ([naming_conventions.md](naming_conventions.md))
 and mark any inferred name as such.

@@ -16,7 +16,7 @@ extern void __cdecl fcn_00500bb0(char*, int, int, int);
 /* ADDRESS: GOLDTL 0x00579320 */
 void __cdecl fcn_00579320(char* a0)
 {
-	*(pos14_7f4c00*) (a0 + 0x52) = g_7f4c00;
+	*(pos14_7f4c00*) (a0 + 0x52) = gm_GameTime;
 	if (*(unsigned short*) (a0 + 0x56) >= 0x17) {
 		fcn_00500bb0(a0 + 0x52, 0x18, 0, 0);
 		*(unsigned short*) (a0 + 0x56) = 0xc;

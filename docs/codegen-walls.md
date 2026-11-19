@@ -66,3 +66,26 @@ Same method as above (`rebrew test ... --no-promote`; every variant reverted).
   8 generations. The machine was loaded by another agent's regression run, so the GA got too few generations to say anything.
 - A larger fresh-seed batch (`--threshold 20`, 12 functions, 200 generations, 10 minute budget) was killed after 35 minutes
   with no function finished; hand edits made while it ran touched the same files, so it is not evidence either way.
+
+## Handler pass, 2026-11-19 (guild-gold overlap)
+
+Same method (`rebrew test ... --no-promote`, every variant reverted). Handlers chosen from the Rust port's `he`/`cmd` rows
+that are STUB or NEAR_MATCHING in the GoldTL todo.
+
+- **0x004c9e20** (`cm_ExAllocCutscene`, STUB 109/190; guild-gold `docs/commands.md` calls command 0x27 "a meeting from the
+  prepared buffer 0xAED340 through FUN_004E6AE0 into the table 0x9A9660", tag R). Target keeps the `entry == 0` arm
+  (`mov ebx, 1; jmp`) out of line at the end of the function; ours emits it inline. Tried an explicit
+  `if (!entry) goto fail; ... fail: ret = 1; goto done;` layout (71/190) and `if (entry == 0) ret = 1; else {...}` (71/190);
+  the original `if (entry != 0) {...} else ret = 1` stays best at 109/190. **Name conflict, not acted on:** the Rust port's
+  replay-verified role (meeting creation) does not agree with the current `cm_ExAllocCutscene` / `cut_AllocCutscene` names;
+  needs a naming-ledger review before any rename.
+- **0x004cdda0** (`fcn_004cdda0`, command 0x68 set-route handler, NEAR 193/199). The only difference is `lea eax, [esp+0x4c]`
+  vs `mov ecx, edx` ordering at the loop entry. Tried `node = buf` moved inside the `if`, both orders of `i = n` / `node = buf`
+  (193/199, no change; the compiler ignores the order), and counting with `i` while keeping `n` for the tail store
+  (SIZE_MISMATCH 15/206).
+- **0x00566110** (`fcn_00566110`, `HE_ENTLASSEN_finish`, NEAR 390/392, 129/129 aligned instructions). Only two jump
+  displacements differ: the target's `state < -2` and `state != 0` exits land on the first epilogue (after the tail call),
+  ours on the last (after the `fail:` store). Routing the two `return`s through a `done:` label placed after the tail call:
+  no change.
+- Measured, not attempted (match/total): 0x551d50 553/575, 0x5513d0 631/639, 0x55c270 1153/1168, 0x55cc80 1066/1092,
+  0x4cc820 803/838, 0x4cb7f0 1103/1175, 0x565ab0 1335/1560.

@@ -418,6 +418,11 @@ Debian only edits sources, runs git and light read-only inspection. Run `worker 
 returns the updated metadata TOMLs. Never fall back to running it here. No sudo on the PC.
 Verify with `worker run rebrew -- test --all --dir <subdir> --jobs 14` (one startup, parallel compiles), not per-file
 `test <file>` runs; use the smallest subdir that holds the files being checked.
+For `diff`/hypothesis sweeps, batch multiple `src/.sweep/v*.c` variants (strip `/* ADDRESS: ... */`, delete `src/.sweep` in `finally`)
+in **one** `worker run rebrew -- --sh '...'` job. Prefer calling `rebrew.test.compile_and_compare` in-process via `.venv/bin/python`
+`ThreadPoolExecutor(max_workers=14)` with `name_to_va=None` (or a small dict for the function's symbols) rather than spawning
+separate `.venv/bin/rebrew` CLI processes: `build_name_to_va(cfg)` takes ~24s per CLI call, whereas in-process batching runs
+12 variants in ~2.5s (~9s total round-trip). Confirm any winner with `worker run rebrew -- test <file> --json` + `worker fetch <id>`.
 
 `rebrew init --refresh-agents` rewrites everything above this marker. The rules
 below are project-specific and survive that refresh.
@@ -487,3 +492,18 @@ spans and source-owned objects kept distinct.
 D3 definitions are in `src/Develop/Units/d3/d3_object.h`. Bindings stay on stable
 IDs in `rebrew-types.toml`; after a source or header edit, review the native
 evidence and rebind the same IDs with `rebrew types bind`.
+
+## Codebase idioms
+
+Before writing or debugging a function in a subsystem (command handlers, game
+logic, server networking, load/save, or client utilities), check
+[docs/code-idioms.md](docs/code-idioms.md) and inspect 1–2 sibling `EXACT`
+functions in the same translation unit or subsystem for recurring C89 and MSVC6
+patterns. Treat documented idioms as starting hypotheses; `rebrew test` /
+`rebrew verify` remain ground truth.
+
+When a non-obvious C shape unlocks `EXACT` (e.g., declaration order, `goto fail`,
+stack homing, or a named constant to prevent tail-merging), add a brief `/* ... */`
+comment in the `.c` file explaining *why* so future edits do not break it, and
+promote reusable patterns to [docs/code-idioms.md](docs/code-idioms.md) rather
+than keeping per-edit prose logs.

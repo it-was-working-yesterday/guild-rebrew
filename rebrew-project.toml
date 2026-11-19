@@ -1,6 +1,6 @@
 [project]
 name = "Europa 1400: The Guild"
-jobs = 8
+jobs = 14
 default_target = "Europa1400Gold_TL.exe"
 # Unified source tree: src/Develop mirrors D:\Develop. Every target scans
 # the whole tree; dedicated MODULE.0xVA metadata rows select each target's

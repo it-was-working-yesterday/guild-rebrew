@@ -25,5 +25,7 @@ if [ "${1:-}" = "--sh" ]; then shift; bash -c "$@"; rc=$?; else uv run rebrew "$
 find src stubs -type f 2>/dev/null | sort > "$ART/files.after"
 (find src stubs -type f -newer "$ART/.mark" -print0 2>/dev/null | xargs -0 -r tar -cf "$ART/changed-src.tar") 2>/dev/null
 [ -e rebrew-metadata.sqlite3 ] && cat rebrew-functions.toml rebrew-data.toml rebrew-types.toml | sha256sum | cut -d" " -f1 > .toml-hash || rm -f .toml-hash
-cp -p rebrew-functions.toml rebrew-data.toml rebrew-types.toml "$ART"/ 2>/dev/null
+for f in rebrew-functions.toml rebrew-data.toml rebrew-types.toml; do
+  [ -e "$f" ] && [ "$f" -nt "$ART/.mark" ] && cp -p "$f" "$ART"/ 2>/dev/null
+done
 exit $rc

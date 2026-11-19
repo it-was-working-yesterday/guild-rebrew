@@ -49,6 +49,7 @@ virtual address.
 | Who allocates these bytes? | [Data ownership](data-ownership.md) |
 | What compiler and runtime did each target use? | [Build facts](general-knowledge.md) |
 | Which C expression changes the emitted code? | [C shapes](msvc6-c-shapes.md) |
+| How are EXACT game functions written? | [Codebase idioms](code-idioms.md) |
 | Why these registers or stack slots? | [Register allocation](msvc6-allocator.md) |
 | What controls the linked image? | [Link layout](msvc6-link-layout.md) |
 | What does a comparison prove? | [Measurement](measure-traps.md) |

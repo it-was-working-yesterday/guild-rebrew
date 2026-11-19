@@ -16,11 +16,13 @@ cd "$LANE" || exit 126
 cur=$(cat rebrew-functions.toml rebrew-data.toml rebrew-types.toml | sha256sum | cut -d' ' -f1)
 [ "$cur" = "$(cat .toml-hash 2>/dev/null)" ] || rm -f rebrew-metadata.sqlite3*
 touch "$ART/.mark"
+find src stubs -type f 2>/dev/null | sort > "$ART/files.before"
 [ -e original ] || cp -a /srv/guild-rebrew/original original
 [ -d cmake/toolchain-overlays ] || cp -a /srv/guild-rebrew/cmake/toolchain-overlays cmake/
 export REBREW_TOOLCHAIN_OVERLAY_DIR=$LANE/cmake/toolchain-overlays
 [ -d .venv/bin ] || uv sync --frozen >&2 || exit 126
 if [ "${1:-}" = "--sh" ]; then shift; bash -c "$@"; rc=$?; else uv run rebrew "$@"; rc=$?; fi
+find src stubs -type f 2>/dev/null | sort > "$ART/files.after"
 (find src stubs -type f -newer "$ART/.mark" -print0 2>/dev/null | xargs -0 -r tar -cf "$ART/changed-src.tar") 2>/dev/null
 [ -e rebrew-metadata.sqlite3 ] && cat rebrew-functions.toml rebrew-data.toml rebrew-types.toml | sha256sum | cut -d" " -f1 > .toml-hash || rm -f .toml-hash
 cp -p rebrew-functions.toml rebrew-data.toml rebrew-types.toml "$ART"/ 2>/dev/null

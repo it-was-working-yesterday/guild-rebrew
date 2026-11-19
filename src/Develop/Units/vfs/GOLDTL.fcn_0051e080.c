@@ -33,6 +33,9 @@ int __cdecl fcn_004c0740(void* stream);
 int __cdecl fcn_005922e0(void* stream);
 int __cdecl fcn_005b1f10(void* stream);
 
+/* Each failing step is written as if/else nesting, not a flat run of `if (x == 0) {cleanup; return 0;}`:
+ * flat checks let MSVC6 merge the identical CloseVfsStream/fcn_0051ea70 tails into one shared block,
+ * while the original keeps one inline cleanup per check. The last check carries the success tail in its else. */
 /* ADDRESS: GOLDTL 0x0051e080 */
 int __cdecl fcn_0051e080(char* name, char* slot, int flags)
 {

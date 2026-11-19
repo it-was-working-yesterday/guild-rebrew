@@ -22,6 +22,9 @@ int __cdecl fcn_004c6a00(void* msg);
 
 #pragma optimize("y", off)
 
+/* The state-3 event block is written out twice (first-run/state 0 path and the v7 == 3 arm) and the
+ * sel[gm_RandomMod(0x10)] lookup sits in each if/else arm: a goto into one shared block or a single
+ * shared lookup makes MSVC6 emit them once, and the target has them per arm. */
 /* ADDRESS: GOLDTL 0x004fb7a0 */
 void __cdecl fcn_004fb7a0(void)
 {
@@ -30,7 +33,6 @@ void __cdecl fcn_004fb7a0(void)
 	unsigned char ev[0xf8];
 	int msg[10];
 	int phase;
-	int v7;
 	float f;
 
 	if (g_99f5a0 != 1) {
@@ -64,14 +66,25 @@ void __cdecl fcn_004fb7a0(void)
 	memset(ev, 0, sizeof(ev));
 	st[1] += 1;
 	st[2] = *(int*) 0x7f4c00;
-	if (st[8] >= 4) {
-		st[8] = 0;
+	if (st[8] >= 4 || st[8] == 0) {
+		if (st[8] >= 4)
+			st[8] = 0;
 		st[7] = 3;
-		goto state3;
-	}
-	if (st[8] == 0) {
-		st[7] = 3;
-		goto state3;
+		ev[4] = 'P';
+		*(int*) (ev + 8) = *(int*) (gm_CityEntity + 4);
+		*(Time14*) (ev + 0x28) = CLOCK_4fb7a0;
+		*(int*) (ev + 0xc) = -1;
+		ev[0x36] = 2;
+		*(int*) (ev + 0x58) = -1;
+		*(int*) (ev + 0x74) = 1000;
+		if (CLOCK_4fb7a0.hour >= 0x17) {
+			fcn_00500bb0((Time14*) (ev + 0x28), (gm_RandomMod(4) & 0xffff) + 7, (gm_RandomMod(2) & 0xffff) * 30, 0);
+		} else {
+			fcn_00500bb0((Time14*) (ev + 0x28), gm_RandomMod(4) & 0xffff, (gm_RandomMod(2) & 0xffff) * 30, 0);
+		}
+		fcn_004c5530(ev);
+		st[8] = st[7];
+		goto send_state;
 	}
 	sel[15] = 2;
 	sel[14] = 2;
@@ -90,6 +103,7 @@ void __cdecl fcn_004fb7a0(void)
 		sel[11] = 2;
 		sel[12] = 2;
 		sel[13] = 2;
+		st[7] = sel[gm_RandomMod(0x10) & 0xffff] + 1;
 	} else if (st[8] == 2) {
 		sel[6] = 0;
 		sel[5] = 0;
@@ -101,6 +115,7 @@ void __cdecl fcn_004fb7a0(void)
 		sel[11] = 2;
 		sel[12] = 2;
 		sel[13] = 2;
+		st[7] = sel[gm_RandomMod(0x10) & 0xffff] + 1;
 	} else {
 		sel[6] = 0;
 		sel[5] = 0;
@@ -112,10 +127,9 @@ void __cdecl fcn_004fb7a0(void)
 		sel[11] = 1;
 		sel[12] = 1;
 		sel[13] = 1;
+		st[7] = sel[gm_RandomMod(0x10) & 0xffff] + 1;
 	}
-	v7 = sel[gm_RandomMod(0x10) & 0xffff] + 1;
-	st[7] = v7;
-	if (v7 == 1) {
+	if (st[7] == 1) {
 		ev[4] = 'Y';
 		*(int*) (ev + 8) = *(int*) (gm_CityEntity + 4);
 		*(int*) (ev + 0xc) = -1;
@@ -129,7 +143,7 @@ void __cdecl fcn_004fb7a0(void)
 		} else {
 			fcn_00500bb0((Time14*) (ev + 0x28), (gm_RandomMod(4) & 0xffff) + 7, (gm_RandomMod(2) & 0xffff) * 30, 0);
 		}
-	} else if (v7 == 2) {
+	} else if (st[7] == 2) {
 		ev[4] = 'N';
 		*(int*) (ev + 8) = *(int*) (gm_CityEntity + 4);
 		*(int*) (ev + 0xc) = -1;
@@ -143,8 +157,7 @@ void __cdecl fcn_004fb7a0(void)
 		} else {
 			fcn_00500bb0((Time14*) (ev + 0x28), gm_RandomMod(4) & 0xffff, (gm_RandomMod(2) & 0xffff) * 30, 0);
 		}
-	} else if (v7 == 3) {
-state3:
+	} else if (st[7] == 3) {
 		ev[4] = 'P';
 		*(int*) (ev + 8) = *(int*) (gm_CityEntity + 4);
 		*(Time14*) (ev + 0x28) = CLOCK_4fb7a0;
@@ -158,7 +171,7 @@ state3:
 			fcn_00500bb0((Time14*) (ev + 0x28), gm_RandomMod(4) & 0xffff, (gm_RandomMod(2) & 0xffff) * 30, 0);
 		}
 	} else {
-		st[8] = v7;
+		st[8] = st[7];
 		goto send_state;
 	}
 	fcn_004c5530(ev);

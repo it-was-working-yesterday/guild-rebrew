@@ -46,3 +46,23 @@ best scores 2900/7400/7500), then hand variants checked with
   `-0.5 - (v = s->items[i].x04)` (323/328, no gain).
 
 Not yet tried for any of the three: `--algorithm flags-then-ga`, a different `--seed`.
+
+## Near-miss hand-diff, round 2, 2026-11-19
+
+Same method as above (`rebrew test ... --no-promote`; every variant reverted).
+
+- **0x004c6e20** (`fcn_004c6e20.c`, 113/123). Target sets `ecx = 0x10` before `esi = ebx` and the next-pointer load in
+  the copy loop; ours loads `ecx` last. Tried: `memcpy(dst, p, 0x40)` before advancing `p` (107/123);
+  a 0x40-byte struct assignment with `src = p; p = next` (113/123, no change); struct assignment from `p`
+  before advancing (107/123).
+- **0x0050b840** (`fcn_0050b840.c`, 125/136). Target pops `esi`/`edi` before loading `r->cap`/`r->div`. Tried:
+  `r = (Rec*) (lpObjektePROT + id * 0x40)` (SIZE_MISMATCH, 132 bytes); three operand orders / casts in the return
+  expression (115/136 each).
+- **0x00509570** (`gm_GetEntityTableEntry`, `spiel.c`, 54/65; test with `--va 0x00509570 --symbol
+  _gm_GetEntityTableEntry`, since `spiel.c` holds many functions). Target keeps the index in `eax`
+  (`and eax,0xf; test eax,eax`); ours copies it to `ecx`. Tried: a `v` temp for the halfword at `+0x50`;
+  `(short*) g_entity_base + index * 0x56`; a 0xac-byte record type indexed from `g_entity_base`. All 54/65.
+- **0x004f0f60**. Fresh-seed GA (seed 20261119, 100 generations, 6 minute budget): no match, best score 42226.83 after
+  8 generations. The machine was loaded by another agent's regression run, so the GA got too few generations to say anything.
+- A larger fresh-seed batch (`--threshold 20`, 12 functions, 200 generations, 10 minute budget) was killed after 35 minutes
+  with no function finished; hand edits made while it ran touched the same files, so it is not evidence either way.

@@ -47,7 +47,6 @@ typedef struct {
 } TIME_JOB;
 #pragma pack(pop)
 
-/* ADDRESS: GOLDTL 0x005705a0 */
 extern char g_774964;
 extern void* g_7749f0;
 extern int __cdecl fcn_004c4450(int);
@@ -92,6 +91,7 @@ void __cdecl fcn_00570870(char* h)
 	}
 }
 
+/* ADDRESS: GOLDTL 0x005705a0 */
 void __cdecl fcn_005705a0(int a0, char* rec)
 {
 	TIME_JOB job;

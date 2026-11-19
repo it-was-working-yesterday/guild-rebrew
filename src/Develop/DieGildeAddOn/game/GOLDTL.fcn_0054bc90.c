@@ -41,21 +41,46 @@ void __cdecl fcn_0054bc90(char* a0)
 	v13 = 0;
 	v15 = 0;
 	if (*(int*) (a0 + 0x70) == -1 || *(int*) (a0 + 0x70) == -2)
-		goto close;
+		{
+			if (*(int*) (a0 + 0x74))
+				fcn_00545780(a0);
+			fcn_00546190(a0);
+			return;
+		}
 	if (*(int*) (a0 + 0xbc) == 0) {
 		gm_ResolveEntityById(&v10, 0, 0, *(unsigned int*) (a0 + 0x10));
 		if (v10 == 0)
-			goto close;
+			{
+				if (*(int*) (a0 + 0x74))
+					fcn_00545780(a0);
+				fcn_00546190(a0);
+				return;
+			}
 		v13 = fcn_00502cd0(*(unsigned int*) (v10 + 0x5d), 1, 0, 0x17);
 		if (v13 == 0)
-			goto close;
+			{
+				if (*(int*) (a0 + 0x74))
+					fcn_00545780(a0);
+				fcn_00546190(a0);
+				return;
+			}
 		v5 = *(unsigned short*) (v10 + 0x27);
 		if (v5 == 0xffff)
-			goto close;
+			{
+				if (*(int*) (a0 + 0x74))
+					fcn_00545780(a0);
+				fcn_00546190(a0);
+				return;
+			}
 	} else if (*(int*) (a0 + 0xbc) == 1) {
 		v15 = fcn_005463a0(2, 1, *(unsigned int*) (a0 + 0xc0), 0, 0x37);
 		if (v15 == 0)
-			goto close;
+			{
+				if (*(int*) (a0 + 0x74))
+					fcn_00545780(a0);
+				fcn_00546190(a0);
+				return;
+			}
 		v5 = *(unsigned short*) (v15 + 8);
 	} else {
 		fcn_00546190(a0);
@@ -64,7 +89,12 @@ void __cdecl fcn_0054bc90(char* a0)
 	v1 = (unsigned int) v5 * 0x21c;
 	v7 = (unsigned short*) (v1 + (unsigned long)&g_7f4ca0);
 	if (v7 == 0)
-		goto close;
+		{
+			if (*(int*) (a0 + 0x74))
+				fcn_00545780(a0);
+			fcn_00546190(a0);
+			return;
+		}
 	v4 = *(char*) ((unsigned int) *(unsigned short*) (a0 + 8) * 0x21c + (unsigned long)&g_7f4ca2);
 	v2 = (unsigned int) *(unsigned short*) (a0 + 8) * 0x21c;
 	v3 = (unsigned short*) (v2 + (unsigned long)&g_7f4ca0);

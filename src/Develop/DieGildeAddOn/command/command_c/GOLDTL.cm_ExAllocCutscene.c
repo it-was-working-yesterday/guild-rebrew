@@ -23,17 +23,17 @@ int __cdecl cm_ExAllocCutscene(int* obj, char* result)
     if (g_14cbca0 != -1)
         g_699368 = *(int*) ((char*) obj + 0x10);
     entry = cut_AllocCutscene(payload);
-    /* MSVC6 places the cold error-set + backward jump after `ret` when written
-     * as `if (entry == 0) goto fail;` with `fail:` jumping back to `check:`. */
-    if (entry == 0)
+    if (entry != 0) {
+        if (g_7747b0 & 4)
+            *(unsigned char*) (entry + 0x26) |= 0x80;
+        *(int*) (entry + 0x78) = *(int*) ((char*) obj + 0x14);
+        if (result != 0) {
+            result[0] = 1;
+            result[1] = 9;
+            *(char**) (result + 6) = entry;
+        }
+    } else {
         goto fail;
-    if (g_7747b0 & 4)
-        *(unsigned char*) (entry + 0x26) |= 0x80;
-    *(int*) (entry + 0x78) = *(int*) ((char*) obj + 0x14);
-    if (result != 0) {
-        result[0] = 1;
-        result[1] = 9;
-        *(char**) (result + 6) = entry;
     }
 check:
     if (*(unsigned char*) (entry + 8) == 5) {

@@ -1,0 +1,21 @@
+date	module_va	old_name	new_name	basis	confidence	src_uses	guild_gold_name	guild_gold_tag	evidence
+2026-11-19	GOLDTL.0x007747b4	g_7747b4	gm_GameDifficulty	inferred	medium	18	game_difficulty	D	guild-gold docs/building-dialog.md#hiring-in-a-live-game: save-header dword after the screenshot; 0 London easy, 2 Nuernberg
+2026-11-19	GOLDTL.0x00774964	g_774964	gm_DayRunning	inferred	medium	25	day_running	D	guild-gold docs/runtime.md#the-session-and-the-day-fun_005438c0: day() sets 1 and clears it at its end; off in the step into a new round (our fcn_00570870 reads it as the day-running guard)
+2026-11-19	GOLDTL.0x006b7e98	g_6b7e98	esc_CurrentScript	inferred	medium	87	script_current	D	guild-gold docs/formats/esc.md#the-machine-s: the running script, 0 between frames
+2026-11-19	GOLDTL.0x006b7e94	g_6b7e94	esc_ScriptSlots	inferred	medium	13	script_slots	D	guild-gold docs/formats/esc.md#the-machine-s: 128 slots of 0xC98 bytes on the heap (heap pointer seen in memory.bin)
+2026-11-19	GOLDTL.0x006a3440	g_6a3440	gm_Mission	inferred	medium	22	mission	D	guild-gold docs/runtime.md: first byte of save section 21; -1 or 5 means no action 0x4C
+2026-11-19	GOLDTL.0x00773d50	g_773d50	gm_GlobalAccumulatorCeiling	inferred	high	6	global_accumulator_ceiling	R	guild-gold docs/market.md#market-tables-at-a-round-change: save section 12 +62; floor is a quarter
+2026-11-19	GOLDTL.0x00773d4c	g_773d4c	gm_GlobalAccumulator	inferred	high	14	global_accumulator	R	guild-gold docs/market.md#market-tables-at-a-round-change: save section 12 +58; city 0 demand follows it
+2026-11-19	GOLDTL.0x0085ab90	g_85ab90	gm_CityMarketTable	inferred	medium	10	city_market_table	D	guild-gold docs/timed-actions.md: per city 0x2A90 bytes: 16-byte header, 85 entries of 0x80 (u16 proto +0, f32 price +0x38)
+2026-11-19	GOLDTL.0x009a9660	g_9a9660	gm_MeetingTable	inferred	high	10	meeting_table	R	guild-gold docs/meetings.md: save section 15: stride 0x114, 96 slots; command 0x27 fills it (see 0x4c9e20 naming conflict)
+2026-11-19	GOLDTL.0x007731b8	g_7731b8	gm_CannonTable	inferred	high	11	cannon_table	R	guild-gold docs/timed-actions.md: 8 x 0x170; R on 2026-11-16-heap
+2026-11-19	GOLDTL.0x00696178	g_696178	gm_HomeRoomsTable	inferred	high	2	home_rooms_table	R	guild-gold docs/commands.md#command-types: 8 bytes per type; first word = rooms: 8, 12, 20 for types 1, 2, 3
+2026-11-19	GOLDTL.0x0099f800	g_99f800	cm_CrimePairTable	inferred	high	17	crime_pair_table	R	guild-gold docs/crime.md#offences-save-section-10: 2048 pairs of person, offence
+2026-11-19	GOLDTL.0x009a3800	g_9a3800	cm_OffenceRecords	inferred	high	22	offence_records	R	guild-gold docs/crime.md#offences-save-section-10: 512 x 0x2D, 41 saved
+2026-11-19	GOLDTL.0x0099ef80	g_99ef80	cm_DangerGrid	inferred	high	7	danger_grid	R	guild-gold docs/crime.md: 8 x 8 cells of 0x18 bytes (i16 around, i16 here, u8 buildings, i32 protection, 3 floats)
+2026-11-19	GOLDTL.0x007dcae0	g_7dcae0	he_ApEvents	inferred	high	8	ap_events	R	guild-gold docs/runtime.md: countdown, owner, A points, B money, label; third list of save section 14
+2026-11-19	GOLDTL.0x007e43a8	g_7e43a8	gm_WeatherClouds	inferred	high	6	weather_clouds	R	guild-gold docs/runtime.md: 24 hours, what falls
+2026-11-19	GOLDTL.0x0100b0c0	g_100b0c0	ai_ItemList	inferred	high	15	ai_item_list_0x40	R	guild-gold docs/master-ai.md: AI item list, 0x40-byte entries (see the doc)
+2026-11-19	GOLDTL.0x0100d0c0	g_100d0c0	ai_RecipeList	inferred	high	13	ai_recipe_list_0x58	R	guild-gold docs/master-ai.md: AI recipe list, 0x58-byte entries (see the doc)
+2026-11-19	GOLDTL.0x014a5320	g_14a5320	ui_TextTable	inferred	medium	24	text_table	D	guild-gold docs/ui.md: text number * 4; one number per .res key in .def order
+2026-11-19	GOLDTL.0x00aed340	g_aed340	cm_PayloadBuffer	inferred	medium	8	cmd_payload_buffer	D	guild-gold docs/commands.md#command-types: receive buffer for a command payload (0x68 route nodes, 0x27 meeting); used by fcn_004c9e20 and fcn_004cdda0

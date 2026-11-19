@@ -416,6 +416,8 @@ All reconstruction work runs on the Windows worker PC (`worker` CLI), never on t
 Debian only edits sources, runs git and light read-only inspection. Run `worker run rebrew -- <rebrew args>`
 (`worker.toml`, `scripts/pc-rebrew.sh`): it syncs the tree, runs rebrew in WSL on a lane copy, and `worker fetch <id>`
 returns the updated metadata TOMLs. Never fall back to running it here. No sudo on the PC.
+Verify with `worker run rebrew -- test --all --dir <subdir> --jobs 14` (one startup, parallel compiles), not per-file
+`test <file>` runs; use the smallest subdir that holds the files being checked.
 
 `rebrew init --refresh-agents` rewrites everything above this marker. The rules
 below are project-specific and survive that refresh.

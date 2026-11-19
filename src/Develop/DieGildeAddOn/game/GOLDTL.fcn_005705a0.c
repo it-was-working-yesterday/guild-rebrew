@@ -83,7 +83,7 @@ void __cdecl fcn_00570870(char* h)
 						e = (char*) gm_NextEntityQueryMatch();
 					} while (e);
 				}
-				*(pos14_7f4c00*) (h + 0x52) = *(pos14_7f4c00*) &g_7f4c00;
+				*(pos14_7f4c00*) (h + 0x52) = *(pos14_7f4c00*) &gm_GameTime;
 				fcn_00500bb0(h + 0x52, 0, 0xf, 0);
 			}
 		} else {

@@ -89,3 +89,15 @@ that are STUB or NEAR_MATCHING in the GoldTL todo.
   no change.
 - Measured, not attempted (match/total): 0x551d50 553/575, 0x5513d0 631/639, 0x55c270 1153/1168, 0x55cc80 1066/1092,
   0x4cc820 803/838, 0x4cb7f0 1103/1175, 0x565ab0 1335/1560.
+
+## Handler pass, part 2, 2026-11-19
+
+- **0x005513d0** (`fcn_005513d0`, `HE_NACHWUCHS_finish`, NEAR 631/639). The target interleaves the `g_7f4c00` record loads and
+  the `msg+0x38` store differently from ours (our store of `msg+0x18` comes before the `rec_id` store; the target's
+  comes after). Tried: the four field copies as one packed `pos14_7f4c00` assignment (580/639); `msg+0x38` stored
+  before `msg+0x18` (SIZE_MISMATCH 253/640); `msg+0x20` stored first (580/639); `msg+0x24` stored first (569/639).
+- **0x0055c270** (`fcn_0055c270`, NEAR 1153/1168). One scheduling difference near the end: the target loads `[esi+1]`, stores
+  the id, then loads `[ebx+2]`; ours loads both first. Tried swapping `m.id` / `m.x4` (1150/1168).
+- **0x00566110**. GA (`--improve`, fresh seed 5661, 150 generations, 8 minute budget, machine idle): no match, best score
+  2900.00, the same floor as the earlier 2-byte near-misses. A score that low means the search only has the early-exit jump
+  target left, and the mutation operators do not reach it.

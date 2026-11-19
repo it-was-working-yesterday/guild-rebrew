@@ -550889,7 +550889,7 @@ status = "RELOC"
 similarity = 100.0
 
 ["GOLDTL.0x0049a880".verification]
-source_hash = "929bfd4d335d7f1aa540f1e30bbd02b74e269b6605c545086eb4b9aac9f6cca9"
+source_hash = "bb206deccc18f69e39478493696100b16b9e4c04840c177a811bd113cfa33bf9"
 reference_hash = "ebdefc6824c1c889d4d568102d8751e985b962b572b6ef4105a61c905935ba4c"
 reference_size = "505"
 headers_hash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
@@ -550900,7 +550900,7 @@ module = "GOLDTL"
 va = "0x49a880"
 context_hash = ""
 defines = "[]"
-input_hash = "3b911bc1cf7dc962ce21502a7a5ed9915f18cfedc021cdda18c36a675e07051d"
+input_hash = "21aae619798beec0aaf527e60815bc59903d382852848cd731be405198033526"
 aligned_pairs = 149
 target_instructions = 149
 candidate_instructions = 149
@@ -550908,7 +550908,7 @@ hunks = 0
 similarity = 100.0
 status = "RELOC"
 writer = "test"
-measured_at = "2026-11-18T23:40:18+00:00"
+measured_at = "2026-11-19T00:18:16+00:00"
 
 [["GOLDTL.0x0049a880".status_history]]
 old_status = "STUB"
@@ -745438,12 +745438,12 @@ updated_at = "2026-11-12T14:14:56+00:00"
 ["GOLDTL.0x0049a7b0"]
 size = 201
 updated_by = "test"
-updated_at = "2026-11-18T23:40:07+00:00"
-status = "NEAR_MATCHING"
-similarity = 94.20289855072464
+updated_at = "2026-11-19T00:18:07+00:00"
+status = "RELOC"
+similarity = 100.0
 
 ["GOLDTL.0x0049a7b0".verification]
-source_hash = "929bfd4d335d7f1aa540f1e30bbd02b74e269b6605c545086eb4b9aac9f6cca9"
+source_hash = "bb206deccc18f69e39478493696100b16b9e4c04840c177a811bd113cfa33bf9"
 reference_hash = "017f6883a9b37c811fd11631e124fde0b2eb20c56214ce4c1e654f09c5349a42"
 reference_size = "201"
 headers_hash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
@@ -745454,15 +745454,22 @@ module = "GOLDTL"
 va = "0x49a7b0"
 context_hash = ""
 defines = "[]"
-input_hash = "4a5b5819a79dce5c98fc5c6e8c36d380930938f4849ebb4f722121cf9927d6e2"
-aligned_pairs = 65
+input_hash = "b426465bdc75097343f281dc61f3d62459f715e243bdf8bd601beb830f93ae36"
+aligned_pairs = 69
 target_instructions = 69
 candidate_instructions = 69
-hunks = 5
-similarity = 94.20289855072464
-status = "NEAR_MATCHING"
+hunks = 0
+similarity = 100.0
+status = "RELOC"
 writer = "test"
-measured_at = "2026-11-18T23:40:07+00:00"
+measured_at = "2026-11-19T00:18:07+00:00"
+
+
+[["GOLDTL.0x0049a7b0".status_history]]
+old_status = "NEAR_MATCHING"
+new_status = "RELOC"
+changed_at = "2026-11-19T00:18:07.043838+00:00"
+updated_by = "test"
 ["GOLDTL.0x0049fa80"]
 size = 67
 updated_by = "test"

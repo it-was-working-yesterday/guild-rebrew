@@ -52,30 +52,33 @@ int __cdecl fcn_0049a7b0(char* ctx, int* arg)
 	char* e;
 	char* rec;
 	int r;
+	float t;
 	UseObjectQuery q;
 
 	e = fcn_00502cd0(*(int*) (ctx + 0x178), 1, 1, arg[1]);
 	r = 0;
-	if (e) {
-		rec = (char*) fcn_005c61e0(*(unsigned short*) e);
-		if (rec) {
-			q.e = e;
-			q.a = -1;
-			q.b = -1;
-			q.c = 0;
-			q.d = 0;
-			if (fcn_005dbf10(ctx, &q) == 1) {
-				if (q.c == 1) {
-					g_1009658 = g_1009638 * *(float*) (rec + 0xc);
-					return 0x1d;
-				}
-				if (q.c == -1)
-					g_1009658 = -(g_1009638 * *(float*) (rec + 0xc) * *(float*) 0x6628cc);
+	if (!e)
+		return r;
+	rec = (char*) fcn_005c61e0(*(unsigned short*) e);
+	if (rec) {
+		q.e = e;
+		q.a = -1;
+		q.b = -1;
+		q.c = 0;
+		q.d = 0;
+		if (fcn_005dbf10(ctx, &q) == 1) {
+			if (q.c == 1) {
+				g_1009658 = g_1009638 * *(float*) (rec + 0xc);
 				return 0x1d;
 			}
+			if (q.c == -1) {
+				t = g_1009638 * *(float*) (rec + 0xc);
+				g_1009658 = -(t * *(float*) 0x6628cc);
+			}
+			return 0x1d;
 		}
 	}
-	return r;
+	return 0;
 }
 
 /* ADDRESS: GOLDTL 0x0049a880 */
